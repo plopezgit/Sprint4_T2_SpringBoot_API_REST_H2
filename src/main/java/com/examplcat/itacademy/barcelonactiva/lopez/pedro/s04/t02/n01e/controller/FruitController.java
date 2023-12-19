@@ -27,9 +27,7 @@ public class FruitController {
 	@Autowired
 	private FruitService fruitService;
 	
-	@PostMapping(path = "/add",         
-			consumes = MediaType.APPLICATION_JSON_VALUE, 
-	        produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/add")
 	public ResponseEntity<Fruit> createFruit (@RequestBody Fruit fruit ) throws ServerException {
 		Fruit newFruit = fruitService.createFruit(fruit);		
 		if (newFruit == null) {
