@@ -1,5 +1,7 @@
 package com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.controller;
 
+import java.rmi.ServerException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,9 +24,14 @@ public class FruitController {
 	@PostMapping(path = "add",         
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 	        produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Fruit> createFruit (@RequestBody Fruit fruit ) {
+	public ResponseEntity<Fruit> createFruit (@RequestBody Fruit fruit ) throws ServerException {
 		Fruit newFruit = fruitService.createFruit(fruit);		
-		return new ResponseEntity<>(newFruit, HttpStatus.CREATED);
+		if (newFruit == null) {
+			throw new ServerException("There is server exception error, please try again later.");
+		} else {
+			return new ResponseEntity<>(newFruit, HttpStatus.CREATED);
+
+		}
 		
 	}
 }
