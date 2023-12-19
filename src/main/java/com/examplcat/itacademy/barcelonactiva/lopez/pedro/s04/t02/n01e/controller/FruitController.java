@@ -2,6 +2,7 @@ package com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.controll
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,9 @@ public class FruitController {
 	@Autowired
 	private FruitService fruitService;
 	
-	@PostMapping
+	@PostMapping(path = "add",         
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+	        produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Fruit> createFruit (@RequestBody Fruit fruit ) {
 		Fruit newFruit = fruitService.createFruit(fruit);		
 		return new ResponseEntity<>(newFruit, HttpStatus.CREATED);
