@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +34,18 @@ public class FruitController {
 			return new ResponseEntity<>(newFruit, HttpStatus.CREATED);
 
 		}
+		
+	}
+	
+	@PutMapping("/fruits/{id}")
+	public ResponseEntity<Fruit> updateFruit (@PathVariable int id, @RequestBody Fruit fruit) {
+		Fruit thisFruit = fruitService.getOneFruitById(id);
+		thisFruit.setName(fruit.getName());
+		thisFruit.setKilos(fruit.getKilos());
+		
+		Fruit updatedFruit = fruitService.createFruit(thisFruit);
+		
+		return new ResponseEntity<>(updatedFruit, HttpStatus.CREATED);
 		
 	}
 }
