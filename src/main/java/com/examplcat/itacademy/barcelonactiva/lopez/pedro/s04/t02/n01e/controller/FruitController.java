@@ -1,11 +1,13 @@
 package com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.controller;
 
 import java.rmi.ServerException;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,7 +25,7 @@ public class FruitController {
 	@Autowired
 	private FruitService fruitService;
 	
-	@PostMapping(path = "add",         
+	@PostMapping(path = "/add",         
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 	        produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Fruit> createFruit (@RequestBody Fruit fruit ) throws ServerException {
@@ -37,7 +39,7 @@ public class FruitController {
 		
 	}
 	
-	@PutMapping("/fruits/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<Fruit> updateFruit (@PathVariable int id, @RequestBody Fruit fruit) {
 		Fruit thisFruit = fruitService.getOneFruitById(id);
 		thisFruit.setName(fruit.getName());
@@ -48,4 +50,16 @@ public class FruitController {
 		return new ResponseEntity<>(updatedFruit, HttpStatus.CREATED);
 		
 	}
+	
+	@DeleteMapping ("/delete/{id}")
+	public ResponseEntity<HashMap<String, Boolean>> deleteFruit (@PathVariable int id) {
+		fruitService.deleteFruit(id);
+		
+		HashMap<String, Boolean> fruitDeletedState =  new HashMap<String, Boolean>();
+		fruitDeletedState.put("Deleted", true);
+		
+		return ResponseEntity.ok(fruitDeletedState);
+	
+	}
+	
 }
