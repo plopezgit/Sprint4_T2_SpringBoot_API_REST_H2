@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.domain.Fruit;
+import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.exception.FruitEmptyException;
 import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.exception.FruitNoFoundException;
+import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.exception.FruitsIsEmptyException;
 import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.repository.FruitRepository;
 import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.util.ErrorMesssage;
 
@@ -18,9 +20,12 @@ public class FruitService implements FruitServiceInterface {
 	private FruitRepository fruits;
 	
 	@Override
-	public Fruit createFruit (Fruit fruit) {
+	public Fruit createFruit (Fruit fruit) throws FruitEmptyException {
+		if (fruit.getName().isEmpty() || fruit.getName().isBlank() || (fruit.getKilos() <= 0)) {
+			throw new FruitEmptyException(ErrorMesssage.EMPTY_RESOURCE);
+		} else {
 		return fruits.save(fruit);
-		
+		}
 	} 
 	
 	@Override
@@ -44,7 +49,11 @@ public class FruitService implements FruitServiceInterface {
 	}
 	
 	@Override
-	public List<Fruit> getAllFruits () {
-		return fruits.findAll();
+	public List<Fruit> getAllFruits () throws FruitsIsEmptyException {
+		if (fruits.findAll().isEmpty()) {
+			throw new FruitsIsEmptyException(ErrorMesssage.NO_CONTENT); 
+		} else {
+			return fruits.findAll();
+		}
 	}
 }
