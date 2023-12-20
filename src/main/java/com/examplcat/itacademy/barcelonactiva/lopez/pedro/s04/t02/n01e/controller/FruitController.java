@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,7 @@ public class FruitController {
 	@Autowired
 	private FruitService fruitService;
 	
-	@PostMapping(path = "/add")
+	@PostMapping
 	public ResponseEntity<Fruit> createFruit (@RequestBody Fruit fruit ) throws ServerException {
 		Fruit newFruit = fruitService.createFruit(fruit);		
 		if (newFruit == null) {
@@ -39,7 +38,7 @@ public class FruitController {
 		
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("{id}")
 	public ResponseEntity<Fruit> updateFruit (@PathVariable int id, @RequestBody Fruit fruit) {
 		Fruit thisFruit = fruitService.getOneFruitById(id);
 		thisFruit.setName(fruit.getName());
@@ -47,11 +46,11 @@ public class FruitController {
 		
 		Fruit updatedFruit = fruitService.createFruit(thisFruit);
 		
-		return new ResponseEntity<>(updatedFruit, HttpStatus.CREATED);
+		return new ResponseEntity<>(updatedFruit, HttpStatus.ACCEPTED);
 		
 	}
 	
-	@DeleteMapping ("/delete/{id}")
+	@DeleteMapping ("{id}")
 	public ResponseEntity<HashMap<String, Boolean>> deleteFruit (@PathVariable int id) {
 		fruitService.deleteFruit(id);
 		
@@ -62,13 +61,13 @@ public class FruitController {
 	
 	}
 	
-	@GetMapping ("/getOne/{id}")
+	@GetMapping ("{id}")
 	public ResponseEntity<Fruit> getOneFruitByID (@PathVariable int id) {
 		Fruit thisFruit = fruitService.getOneFruitById(id);
 		return ResponseEntity.ok(thisFruit);
 	}
 	
-	@GetMapping ("/getAll")
+	@GetMapping
 	public ResponseEntity<List<Fruit>> getAllFruits () {
 		return ResponseEntity.ok(fruitService.getAllFruits());
 	}
