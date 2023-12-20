@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.domain.Fruit;
 import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.exception.FruitNoFoundException;
 import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.repository.FruitRepository;
+import com.examplcat.itacademy.barcelonactiva.lopez.pedro.s04.t02.n01e.util.ErrorMesssage;
 
 @Service
 public class FruitService implements FruitServiceInterface {
@@ -23,15 +24,20 @@ public class FruitService implements FruitServiceInterface {
 	} 
 	
 	@Override
-	public void deleteFruit (int id) {
-		fruits.deleteById(id);
+	public void deleteFruit (int id) throws FruitNoFoundException {
+		Optional<Fruit> optionalFruit = fruits.findById(id);
+		if (optionalFruit.isEmpty()) {
+			throw new FruitNoFoundException(ErrorMesssage.NOT_FOUND);
+		} else {
+			fruits.deleteById(id);
+		}
 	}
 	
 	@Override
-	public Fruit getOneFruitById (int id) {
+	public Fruit getOneFruitById (int id) throws FruitNoFoundException {
 		Optional<Fruit> optionalFruit = fruits.findById(id);
 		if (optionalFruit.isEmpty()) {
-			throw new FruitNoFoundException("Fruit id does not exist on the database.");
+			throw new FruitNoFoundException(ErrorMesssage.NOT_FOUND);
 		}
 		return optionalFruit.get();
 		
