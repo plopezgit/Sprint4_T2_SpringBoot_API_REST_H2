@@ -31,7 +31,7 @@ public class FruitService implements FruitServiceInterface {
 	public Fruit getOneFruitById (int id) {
 		Optional<Fruit> optionalFruit = fruits.findById(id);
 		if (optionalFruit.isEmpty()) {
-			throw new FruitNoFoundException("Fruit id does not exist on teh database.");
+			throw new FruitNoFoundException("Fruit id does not exist on the database.");
 		}
 		return optionalFruit.get();
 		
