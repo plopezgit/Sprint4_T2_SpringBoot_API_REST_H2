@@ -10,7 +10,7 @@ public class Fruit {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private int kilos;
+	private int kilograms;
 	
 	public Fruit() {
 		
@@ -18,7 +18,7 @@ public class Fruit {
 
 	public Fruit(String name, int kilos) {
 		this.name = name;
-		this.kilos = kilos;
+		this.kilograms = kilos;
 	}
 
 	public int getId() {
@@ -38,16 +38,16 @@ public class Fruit {
 	}
 
 	public int getKilos() {
-		return kilos;
+		return kilograms;
 	}
 
 	public void setKilos(int kilos) {
-		this.kilos = kilos;
+		this.kilograms = kilos;
 	}
 
 	@Override
 	public String toString() {
-		return "Fruit [id=" + id + ", name=" + name + ", kilos=" + kilos + "]";
+		return "Fruit [id=" + id + ", name=" + name + ", kilos=" + kilograms + "]";
 	}
 
 }
